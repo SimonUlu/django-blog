@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+This post title
+{% endblock  %}
+
+
+{% block css_files %}
+    <link rel="stylesheet" href="{% static "blog/post.css" %}"/> 
+    <link rel="stylesheet" href="{% static "blog/all-posts.css" %}"/> 
+{% endblock  %}
+
+{% block content %}
+    <section id="summary">
+        <h2> Post title</h2>
+        <article>
+            <img src="" alt="Post title"/>
+            <address> By Simon </address>
+            <div>
+                Last updated on <time> July 10th </time>
+            </div>
+        </article>
+    </section>
+
+    <main>
+        <p>
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+        </p>
+    </main>
+{% endblock  %}

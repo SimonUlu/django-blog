@@ -74,6 +74,7 @@ def posts(request):
     })
 
 def post_detail(request, slug):
+    post = __get_post(post_dic, slug)
     return render(request, "blog/post-detail.html", {
         "post": post_dic
     })
@@ -83,3 +84,5 @@ def post_detail(request, slug):
 def __get_date(post):
     return post["date"]
 
+def __get_post(posts, title):
+    return next((post for post in posts if post["title"] == title), None)

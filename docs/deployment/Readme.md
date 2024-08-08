@@ -39,3 +39,9 @@ ALLOWED_HOSTS = ["https://your-domain.com"]
 ```sh
 py manage.py collectstatic
 ```
+
+## Create req.txt with all needed files
+
+```sh
+py -m pip freeze > requirements.txt
+```

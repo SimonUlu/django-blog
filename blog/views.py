@@ -1,24 +1,29 @@
 from django.shortcuts import render, get_object_or_404
 from datetime import date
 from .models import Post, Author, Tag
+from django.views import View
+from django.views.generic import ListView
 
 
 # Create your views here.
 
-def index(request):
-    posts = Post.objects.all().order_by("-date")[:3]
+class IndexView(View):
     
-    return render(request, "blog/index.html", {
-        "posts": posts,
-    })
+    def get(self, request):
 
-def posts(request):
+        posts = Post.objects.all().order_by("-date")[:3]
+        
+        return render(request, "blog/index.html", {
+            "posts": posts,
+        })
+
+class AllPostsView(ListView):
+    template_name = "blog/all-posts.html"
+    model = Post  
+    ordering = ["-date"]
+    context_object_name = "all_posts"
     
-    posts = Post.objects.all()
-    
-    return render(request, "blog/all-posts.html", {
-       "posts": posts, 
-    })
+
 
 def post_detail(request, slug):
     

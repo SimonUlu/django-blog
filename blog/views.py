@@ -1,88 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from datetime import date
+from .models import Post, Author, Tag
 
-post_dic = [
-    {
-        "slug": "hike-in-the-mountains",
-        "image": "mountains.jpg",
-        "author": "Simon",
-        "date": date(2023, 8, 9),
-        "title": "Mountain Hiking",
-        "excerpt": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua",
-        "content": """
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor 
-            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
-            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore 
-            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea 
-            rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-        """
-    },
-    {
-        "slug": "hike-in-the-mountains",
-        "image": "mountains.jpg",
-        "author": "Simon",
-        "date": date(2023, 8, 9),
-        "title": "Mountain Biking",
-        "excerpt": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua",
-        "content": """
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor 
-            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
-            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore 
-            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea 
-            rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-        """
-    },
-    {
-        "slug": "hike-in-the-mountains",
-        "image": "mountains.jpg",
-        "author": "Simon",
-        "date": date(2023, 8, 9),
-        "title": "Mountain Running",
-        "excerpt": "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua",
-        "content": """
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor 
-            invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
-            At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, 
-            no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, 
-            consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore 
-            magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea 
-            rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-        """
-    },
-    
-]
 
 # Create your views here.
 
 def index(request):
-    sorted_posts = sorted(post_dic, key=__get_date)
-    
-    latest_posts = sorted_posts[-3:]
+    posts = Post.objects.all().order_by("-date")[:3]
     
     return render(request, "blog/index.html", {
-        "posts": latest_posts,
+        "posts": posts,
     })
 
 def posts(request):
     
+    posts = Post.objects.all()
+    
     return render(request, "blog/all-posts.html", {
-       "posts": post_dic, 
+       "posts": posts, 
     })
 
 def post_detail(request, slug):
-    post = __get_post(post_dic, slug)
+    
+    post = get_object_or_404(Post, slug=slug)
+
     return render(request, "blog/post-detail.html", {
-        "post": post_dic
+        "post": post
     })
 
-
-## private function
-def __get_date(post):
-    return post["date"]
-
-def __get_post(posts, title):
-    return next((post for post in posts if post["title"] == title), None)

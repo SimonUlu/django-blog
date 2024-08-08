@@ -33,3 +33,9 @@ DEBUG = False
 
 ALLOWED_HOSTS = ["https://your-domain.com"]
 ```
+
+## Run collect static to create folder with all static files
+
+```sh
+py manage.py collectstatic
+```

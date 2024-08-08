@@ -14,7 +14,7 @@ This post title
 
 {% block content %}
     <section id="summary">
-        <h2> Post title</h2>
+        <h2> {{post.title}} </h2>
         <article>
             <img src="{{post.image.url}}" alt="Post title"/>
             <address> By Simon </address>
@@ -26,7 +26,32 @@ This post title
 
     <main>
         <p>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+           {{post.content}}
         </p>
     </main>
+
+    <div>
+        <ul>
+            {% for comment in comments  %}
+                <li>
+                    <h2> {{comment.user_name}}
+                    </h2>
+                    <p>
+                        {{ comment.text }}
+                    </p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div>
+        <h1>Your comment</h1>
+        <form action="{% url "post-detail-page" post.slug %}" method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button> Save comment </button>
+        </form>
+    </div>
+
+
 {% endblock  %}
